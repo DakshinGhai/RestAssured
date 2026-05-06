@@ -10,7 +10,7 @@ import io.restassured.path.json.JsonPath;
 
 import Deserialization.pojo.Api;
 import Deserialization.pojo.GetCourse;
-
+import io.github.cdimascio.dotenv.Dotenv;
 
 public class ClientCredentialsOauth {
 
@@ -18,11 +18,14 @@ public class ClientCredentialsOauth {
 
     public static void main(String[] args) throws InterruptedException {
 
-// TODO Auto-generated method stub
 
+        Dotenv dotenv = Dotenv.load();
+
+        String clientId = dotenv.get("CLIENT_ID");
+        String clientSecret = dotenv.get("CLIENT_SECRET");
         String response =
-                given().formParams("client_id", "692183103107-p0m7ent2hk7suguv4vq22hjcfhcr43pj.apps.googleusercontent.com")
-                        .formParams("client_secret", "erZOWM9g3UtwNRj340YYaK_W")
+                given().formParams("client_id", clientId)
+                        .formParams("client_secret", clientSecret)
                         .formParams("grant_type", "client_credentials")
                         .formParams("scope", "trust")
                         .when().log().all()
