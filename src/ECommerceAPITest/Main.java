@@ -13,18 +13,23 @@ import org.testng.Assert;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import io.github.cdimascio.dotenv.Dotenv;
 
 import static io.restassured.RestAssured.*;
 
 public class Main {
     public static void main(String[] args) {
+        Dotenv dotenv = Dotenv.load();
+
+        String email = dotenv.get("ECOM_EMAIL");
+        String password = dotenv.get("ECOM_PASSWORD");
         RequestSpecification req = new RequestSpecBuilder().setBaseUri("https://rahulshettyacademy.com").setContentType(ContentType.JSON).build();
 
         //Login
 
         LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setUserEmail("vite@gmail.com");
-        loginRequest.setUserPassword("Hello@123");
+        loginRequest.setUserEmail(email);
+        loginRequest.setUserPassword(password);
 
         RequestSpecification reqLogin =given().relaxedHTTPSValidation().log().all().spec(req)
                 .body(loginRequest);
